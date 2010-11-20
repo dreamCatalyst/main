@@ -23,6 +23,8 @@
 namespace JM {
 namespace DB {
 
+class QueryResult;
+
 /**
  * Abstract baseclass for interacting with prepared statements.
  */

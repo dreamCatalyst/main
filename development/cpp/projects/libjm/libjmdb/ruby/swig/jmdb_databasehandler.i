@@ -1,0 +1,1 @@
+%include "jmdb_databasehandler.h"

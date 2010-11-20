@@ -23,6 +23,7 @@
 namespace JM {
 namespace DB {
 
+class ColumnInformation;
 class ResultRow;
 
 
@@ -54,7 +55,7 @@ public:
 	/**
 	 * Get the column information associated with this result set.
 	 */
-	virtual ColumnInformation getColumnInformation() const = 0;
+	virtual ColumnInformation* getColumnInformation() const = 0;
 };
 
 
