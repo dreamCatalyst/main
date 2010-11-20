@@ -1,0 +1,5 @@
+*_wrapper.cpp
+*.so
+*.o
+Makefile
+mkmf.log
