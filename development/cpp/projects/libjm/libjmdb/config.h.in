@@ -1,0 +1,4 @@
+/* Support sqlite */
+#cmakedefine HAVE_SQLITE3 1
+/* Support mysql */
+#cmakedefine HAVE_MYSQL 1

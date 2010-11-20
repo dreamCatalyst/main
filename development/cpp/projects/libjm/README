@@ -1,0 +1,47 @@
+This directory contains several libraries I developed for myself.
+
+Copyright (C) 2010 - Jonathan Maasland <nochoice AT xs4all DOT nl>
+Licensed under the GPL version 3.
+See LICENSE for licensing information.
+
+Each library comes with it's own README. Please read those files for more
+information.
+
+
+Requirements
+------------
+a working build-environment
+cmake 2.8
+
+Compiling
+---------
+
+mkdir build
+cmake ..
+make
+sudo make install (should be added and working if I ever release this)
+
+
+
+=======
+libjmdb - A single library for interacting with different databases
+=======
+
+Optional libraries
+------------------
+sqlite3
+mysql
+
+By default it is assumed that you want to compile against all the optional
+libraries. Therefore if one isn't found an error is thrown.
+
+To disable an optional library use either:
+cmake -DWITH_SQLITE3:bool=OFF ..
+cmake -DWITH_MYSQL:bool=OFF ..
+
+
+=========
+libjmutil - A library containing utility classes and functions
+=========
+
+
