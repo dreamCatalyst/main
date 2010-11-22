@@ -20,7 +20,7 @@
 #ifndef RESULTROW_H
 #define RESULTROW_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 
 

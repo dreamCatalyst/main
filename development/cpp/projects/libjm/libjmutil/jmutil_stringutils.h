@@ -19,7 +19,7 @@
 #ifndef JMUTIL_STRINGUTILS_H
 #define JMUTIL_STRINGUTILS_H
 
-#include <stdint.h>
+#include <cstdint>
 
 namespace JM {
 namespace Util {

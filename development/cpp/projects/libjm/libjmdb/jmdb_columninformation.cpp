@@ -25,24 +25,19 @@ namespace JM {
 namespace DB {
 
 ColumnInformation::ColumnInformation(std::vector< const char* > columnNames)
-  : m_columnNames(columnNames)
-{
-  // empty ctor
+  : m_columnNames(columnNames) {
 }
 
-const char* ColumnInformation::columnName(const unsigned int columnIndex) const
-{
+const char* ColumnInformation::columnName(const unsigned int columnIndex) const {  // NOLINT
   return m_columnNames.at(columnIndex);
 }
 
-unsigned int ColumnInformation::numColumns() const
-{
+unsigned int ColumnInformation::numColumns() const {
   return m_columnNames.size();
 }
 
-unsigned int ColumnInformation::columnIndex(const char* columnName) const
-{
-  for(int i=0; i < m_columnNames.size(); ++i) {
+unsigned int ColumnInformation::columnIndex(const char* columnName) const {
+  for(int i = 0; i < m_columnNames.size(); ++i) {
     if(strcmp(columnName, m_columnNames.at(i)) == 0)
       return i;
   }
@@ -50,4 +45,4 @@ unsigned int ColumnInformation::columnIndex(const char* columnName) const
 }
 
 
-} } // namespace JM::DB
+} }  // namespace JM::DB

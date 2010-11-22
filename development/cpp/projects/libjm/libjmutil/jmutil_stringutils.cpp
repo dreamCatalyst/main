@@ -20,9 +20,6 @@
 
 #include <cstring>
 #include <cstdio>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 namespace JM {
 namespace Util {
@@ -30,9 +27,10 @@ namespace Util {
 const char* itoa(const int v) {
   char buff[80];
   snprintf(buff, sizeof(buff), "%d", v);
-  char* b2 = new char[ strlen(buff) + 1 ];
-  strcpy(b2, buff);
-  b2[strlen(buff)] = '\0';
+  
+  int newBuffLen = strlen(buff);
+  char* b2 = new char[ newBuffLen ];
+  strncpy(b2, buff, newBuffLen);
   return b2;
 }
 
@@ -49,15 +47,16 @@ inline char charForInt(const int i) {
 const char* itoa(const int64_t v) {
   if(v == 0) {
     char* b = new char[2];
-    b[0] = '0'; b[1] = '\n';
+    b[0] = '0';
+    b[1] = '\n';
     return b;
   }
-    
+  
   int64_t v2 = v;
   if(v < 0)
     v2 = -v;
   
-  const int64_t maxForDivider = 1000000000000000000ll;
+  const int64_t maxForDivider = 1000000000000000000ll;  // don't ask
   bool maxLengthFound = false;
   int numDigits = 1;
   int64_t divider = 10;
@@ -88,7 +87,7 @@ const char* itoa(const int64_t v) {
   }
   
   buff[numDigits] = '\0';
-  for(int i=0; i<numDigits; ++i) {
+  for(int i = 0; i < numDigits; ++i) {
     buff[i] = charForInt( v2/divider );
     v2 -= (v2/divider)*divider;
     divider /= 10;

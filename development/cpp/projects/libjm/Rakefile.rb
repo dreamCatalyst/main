@@ -30,4 +30,21 @@ task :test_jmutil do
   sh %{ cd libjmutil/ruby && rake }
 end
 
+# ------ Some tasks to help ease development
+
+task :cpplint do
+  fl = FileList.new("**/*.cpp", "**/*.h")
+  fl.exclude(/_wrapper.cpp/).exclude(/^build/).sort
+  quotedFns = fl.collect do |fn| '"' + fn + '"' end
+
+  lintFilter = "-readability/todo," +
+               "-readability/parens," +
+               "-build/header_guard," +
+               "-build/include," +
+               "-whitespace/blank_lines," +
+               "-whitespace/end_of_line," +
+               "-whitespace/parens"
+
+  `cpplint.py "--filter=#{lintFilter}" #{quotedFns.join(" ")}`
+end
 

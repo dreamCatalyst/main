@@ -36,9 +36,10 @@ class ResultRow;
  * A ResultSet also owns it's ResultRow objects. That means that when a ResultSet gets deleted
  * the ResultRow objects also get deleted.
  */
-class ResultSet
-{
+class ResultSet {
  public:
+  virtual ~ResultSet() { }
+  
   /**
    * Try to move the ResultSet to the next row and returns if the move was succesful.
    */
@@ -59,6 +60,6 @@ class ResultSet
 };
 
 
-} } // namespace JM::DB
+} }  // namespace JM::DB
 
-#endif // QUERYRESULT_H
+#endif  // QUERYRESULT_H

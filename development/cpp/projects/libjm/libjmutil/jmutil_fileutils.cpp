@@ -27,16 +27,15 @@ namespace JM {
 namespace Util {
 
 
-bool FileUtils::exists(const char* filename)
-{
-	// TODO wrap this in different #if OS checks later
-	
-	int fd = open(filename, O_RDONLY);
-	if(fd == -1)
-		return false;
-	close(fd);
-	return true;
+bool FileUtils::exists(const char* filename) {
+  // TODO wrap this in different #if OS checks later
+  
+  int fd = open(filename, O_RDONLY);
+  if(fd == -1)
+    return false;
+  close(fd);
+  return true;
 }
 
 
-} } // namespace JM::Util
+} }  // namespace JM::Util

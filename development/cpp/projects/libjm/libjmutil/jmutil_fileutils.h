@@ -27,15 +27,14 @@ namespace Util {
 /**
  * Class containing utility methods for interacting with files.
  */
-class FileUtils
-{
-public:
-	static bool exists(const char* filename);
-private:
-	FileUtils() {}
+class FileUtils {
+ public:
+  static bool exists(const char* filename);
+ private:
+  FileUtils() {}
 };
 
 
-} } // namespace JM::Util
+} }  // namespace JM::Util
 
-#endif // JMUTIL_FILEUTILS_H
+#endif  // JMUTIL_FILEUTILS_H
