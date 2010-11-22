@@ -69,7 +69,7 @@ bool SqliteDatabaseHandler::isOpen() const {
   return m_connection != 0;
 }
 
-int64_t SqliteDatabaseHandler::execQuery(const char* query) {
+int64_t SqliteDatabaseHandler::execute(const char* query) {
   if(!isOpen())
     return setError(CONNECTION_ERROR, "No connection to database-file!");
   
@@ -98,7 +98,7 @@ PreparedStatement* SqliteDatabaseHandler::prepareQuery(const char* query) {
   return 0;
 }
 
-ResultSet* SqliteDatabaseHandler::selectQuery(const char* query) {
+ResultSet* SqliteDatabaseHandler::executeSelectQuery(const char* query) {
   if(!isOpen()) {
     setError(CONNECTION_ERROR, "No connection to database-file!");
     return 0;

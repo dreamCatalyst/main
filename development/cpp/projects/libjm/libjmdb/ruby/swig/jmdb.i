@@ -11,10 +11,37 @@
   #include "jmdb_field.h"
   #include "jmdb_preparedstatement.h"
   #include "jmdb_resultset.h"
+  
+  /* ------- jmdb_sqlite headers ------ */
+  #include "jmdb_sqlitedatabasehandler.h"
 %}
+
+
+/* -------------------------------------------- Typemaps ------------ */
+
+%include "typemaps.i"
+
+/* --------------------- Typemaps for int64_t ------------ */
+
+%typemap(out) int64_t {
+  $result = LL2NUM($1);
+}
+
+%typemap(in) int64_t const {
+  $1 = NUM2LL($input);
+}
+
+%typemap(typecheck,precedence=SWIG_TYPECHECK_INTEGER) int64_t {
+  $1 = (TYPE($input) == T_BIGNUM);
+}
+
+
+/* -------------------------------------------- Includes ------------ */
 
 %include "jmdb_databasehandler.i"
 %include "jmdb_databasehandlerfactory.i"
 %include "jmdb_field.i"
 %include "jmdb_preparedstatement.i"
 %include "jmdb_resultset.i"
+
+%include "jmdb_sqlitedatabasehandler.i"

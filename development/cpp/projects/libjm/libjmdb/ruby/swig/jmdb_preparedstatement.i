@@ -1,1 +1,1 @@
-#include "jmdb_preparedstatement.h"
+%include "jmdb_preparedstatement.h"

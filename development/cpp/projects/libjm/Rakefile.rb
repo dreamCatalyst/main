@@ -48,3 +48,5 @@ task :cpplint do
   `cpplint.py "--filter=#{lintFilter}" #{quotedFns.join(" ")}`
 end
 
+task :pre_commit_check => [ :rebuild, :test, :cpplint ]
+

@@ -49,8 +49,8 @@ class SqliteDatabaseHandler : public DatabaseHandler {
   int close();
   bool isOpen() const;
   PreparedStatement* prepareQuery(const char* query);
-  ResultSet* selectQuery(const char* query);
-  int64_t execQuery(const char* query);
+  ResultSet* executeSelectQuery(const char* query);
+  int64_t execute(const char* query);
   
  private:
   bool isConnectionStringValid();

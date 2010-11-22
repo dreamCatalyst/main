@@ -101,12 +101,12 @@ class DatabaseHandler {
    * If executing the query fails in any way this method returns 0.
    * Use errorCode() and errorMessage() functions to find out what went wrong.
    */
-  virtual ResultSet* selectQuery(const char* query) = 0;
+  virtual ResultSet* executeSelectQuery(const char* query) = 0;
   
   /**
    * Executes the given query. Returns the error code.
    */
-  virtual int64_t execQuery(const char* query) = 0;
+  virtual int64_t execute(const char* query) = 0;
   
  protected:
   virtual void setErrorCode(const int errorCode) { 
