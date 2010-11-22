@@ -21,6 +21,7 @@
 #include <cstring>
 #include <cstdio>
 
+
 namespace JM {
 namespace Util {
 
@@ -28,7 +29,7 @@ const char* itoa(const int v) {
   char buff[80];
   snprintf(buff, sizeof(buff), "%d", v);
   
-  int newBuffLen = strlen(buff);
+  int newBuffLen = strlen(buff) + 1;
   char* b2 = new char[ newBuffLen ];
   strncpy(b2, buff, newBuffLen);
   return b2;

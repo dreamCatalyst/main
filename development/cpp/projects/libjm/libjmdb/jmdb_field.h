@@ -20,7 +20,7 @@
 #ifndef JMDB_FIELD_H
 #define JMDB_FIELD_H
 
-#include <cstdint>
+#include <stdint.h>
 #include <string>
 
 
