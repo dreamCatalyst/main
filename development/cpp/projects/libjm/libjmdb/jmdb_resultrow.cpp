@@ -1,6 +1,6 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    libjmdb - A simple library for interacting with databases
+    Copyright (C) 2010 - Jonathan Maasland
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,96 +24,62 @@ namespace JM {
 namespace DB {
 
 
-ResultRow::ResultRow(ColumnInformation* columnInfo, std::vector< Field* > fields)
-	: m_columnInfo(columnInfo), m_fieldList(fields)
-{
-	// empty ctor
+ResultRow::ResultRow(ColumnInformation* columnInfo, std::vector< Field* > flds)
+  : m_columnInfo(columnInfo), m_fieldList(flds) {
 }
 
-ResultRow::~ResultRow()
-{
-	std::vector<Field*>::const_iterator iter = m_fieldList.begin();
-	for( ; iter < m_fieldList.end(); ++iter )
-		delete *iter;
+ResultRow::~ResultRow() {
+  std::vector<Field*>::const_iterator iter = m_fieldList.begin();
+  for( ; iter < m_fieldList.end(); ++iter )
+    delete *iter;
 }
 
 
-ColumnInformation* ResultRow::columnInformation() const
-{
-	return m_columnInfo;
+ColumnInformation* ResultRow::columnInformation() const {
+  return m_columnInfo;
 }
 
 
-Field* ResultRow::getField(const char* columnIdent) const
-{
-	return m_fieldList.at( m_columnInfo->columnIndex(columnIdent) );
+Field* ResultRow::getField(const char* columnIdent) const {
+  return m_fieldList.at( m_columnInfo->columnIndex(columnIdent) );
 }
 
-Field* ResultRow::getField(const unsigned int columnNr) const
-{
-	return m_fieldList.at(columnNr);
-}
-
-
-double ResultRow::getDouble(const char* columnIdent) const
-{
-	return getField(columnIdent)->getDouble();
-}
-
-double ResultRow::getDouble(const unsigned int columnNr) const
-{
-	return getField(columnNr)->getDouble();
-}
-
-int ResultRow::getInt(const char* columnIdent) const
-{
-	return getField(columnIdent)->getInt();
-}
-
-int ResultRow::getInt(const unsigned int columnNr) const
-{
-	return getField(columnNr)->getInt();
-}
-
-long ResultRow::getLong(const char* columnIdent) const
-{
-	return getField(columnIdent)->getLong();
-}
-
-long ResultRow::getLong(const unsigned int columnNr) const
-{
-	return getField(columnNr)->getLong();
-}
-
-const char* ResultRow::getString(const char* columnIdent) const
-{
-	return getField(columnIdent)->getString();
-}
-
-const char* ResultRow::getString(const unsigned int columnNr) const
-{
-	return getField(columnNr)->getString();
-}
-
-unsigned int ResultRow::getUInt(const char* columnIdent) const
-{
-	return getField(columnIdent)->getUInt();
-}
-
-unsigned int ResultRow::getUInt(const unsigned int columnNr) const
-{
-	return getField(columnNr)->getUInt();
-}
-
-unsigned long ResultRow::getULong(const char* columnIdent) const
-{
-	return getField(columnIdent)->getULong();
-}
-
-unsigned long ResultRow::getULong(const unsigned int columnNr) const
-{
-	return getField(columnNr)->getULong();
+Field* ResultRow::getField(const unsigned int columnNr) const {
+  return m_fieldList.at(columnNr);
 }
 
 
-} } // namespace JM::DB
+double ResultRow::getDouble(const char* columnIdent) const {
+  return getField(columnIdent)->getDouble();
+}
+
+double ResultRow::getDouble(const unsigned int columnNr) const {
+  return getField(columnNr)->getDouble();
+}
+
+int ResultRow::getInt(const char* columnIdent) const {
+  return getField(columnIdent)->getInt();
+}
+
+int ResultRow::getInt(const unsigned int columnNr) const {
+  return getField(columnNr)->getInt();
+}
+
+int64_t ResultRow::getInt64( const char* columnIdent) const {
+  return getField(columnIdent)->getInt64();
+}
+
+int64_t ResultRow::getInt64( const unsigned int columnNr) const {
+  return getField(columnNr)->getInt64();
+}
+
+const char* ResultRow::getString(const char* columnIdent) const {
+  return getField(columnIdent)->getString();
+}
+
+const char* ResultRow::getString(const unsigned int columnNr) const {
+  return getField(columnNr)->getString();
+}
+
+
+} }  // namespace JM::DB

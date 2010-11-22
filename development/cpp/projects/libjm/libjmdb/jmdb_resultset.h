@@ -1,6 +1,6 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    libjmdb - A simple library for interacting with databases
+    Copyright (C) 2010 - Jonathan Maasland
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,24 +38,24 @@ class ResultRow;
  */
 class ResultSet
 {
-public:
-	/**
-	 * Try to move the ResultSet to the next row and returns if the move was succesful.
-	 */
-	virtual bool next() = 0;
-	
-	/**
-	 * Returns the pointer to the current row or 0 if there is no current row.
-	 * 
-	 * Users should take note to delete the ResultSet object itself and not
-	 * ResultRow pointers. Those will get deleted when the ResultSet is deleted.
-	 */
-	virtual ResultRow* current() const = 0;
-	
-	/**
-	 * Get the column information associated with this result set.
-	 */
-	virtual ColumnInformation* getColumnInformation() const = 0;
+ public:
+  /**
+   * Try to move the ResultSet to the next row and returns if the move was succesful.
+   */
+  virtual bool next() = 0;
+  
+  /**
+   * Returns the pointer to the current row or 0 if there is no current row.
+   * 
+   * Users should take note to delete the ResultSet object itself and not
+   * ResultRow pointers. Those will get deleted when the ResultSet is deleted.
+   */
+  virtual ResultRow* current() const = 0;
+  
+  /**
+   * Get the column information associated with this result set.
+   */
+  virtual ColumnInformation* getColumnInformation() const = 0;
 };
 
 

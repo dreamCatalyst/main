@@ -15,7 +15,7 @@ task :compile_sources => [ :create_makefile ] do
 end
 
 task :create_makefile => [ :check_create_links, :generate_wrappers ] do
-  sh %{ ruby extconf.rb --with-jmutil-dir=.. }
+  sh %{ ruby extconf.rb --with-jmutil-dir=.. --with-cflags="-g -fno-strict-aliasing" }
 end
 
 task :generate_wrappers => [] do

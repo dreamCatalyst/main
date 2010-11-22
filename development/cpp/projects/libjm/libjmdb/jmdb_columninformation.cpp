@@ -1,6 +1,6 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    libjmdb - A simple library for interacting with databases
+    Copyright (C) 2010 - Jonathan Maasland
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,28 +25,28 @@ namespace JM {
 namespace DB {
 
 ColumnInformation::ColumnInformation(std::vector< const char* > columnNames)
-	: m_columnNames(columnNames)
+  : m_columnNames(columnNames)
 {
-	// empty ctor
+  // empty ctor
 }
 
 const char* ColumnInformation::columnName(const unsigned int columnIndex) const
 {
-	return m_columnNames.at(columnIndex);
+  return m_columnNames.at(columnIndex);
 }
 
 unsigned int ColumnInformation::numColumns() const
 {
-	return m_columnNames.size();
+  return m_columnNames.size();
 }
 
 unsigned int ColumnInformation::columnIndex(const char* columnName) const
 {
-	for(int i=0; i < m_columnNames.size(); ++i) {
-		if(strcmp(columnName, m_columnNames.at(i)) == 0)
-			return i;
-	}
-	return 0;
+  for(int i=0; i < m_columnNames.size(); ++i) {
+    if(strcmp(columnName, m_columnNames.at(i)) == 0)
+      return i;
+  }
+  return 0;
 }
 
 

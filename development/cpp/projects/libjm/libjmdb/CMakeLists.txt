@@ -24,10 +24,12 @@ endif(${WITH_MYSQL})
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
+# Add the libjmutil source directory to the include path
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../libjmutil)
+
+# -------------- next target ------------
+
 add_library(jmdb SHARED jmdb_columninformation.cpp jmdb_field.cpp jmdb_resultrow.cpp jmdb_sqlitedatabasehandler.cpp jmdb_databasehandlerfactory.cpp)
-target_link_libraries(jmdb sqlite3)
+target_link_libraries(jmdb sqlite3 jmutil)
 
-add_executable(jmdb_simple_test main.cpp)
-target_link_libraries(jmdb_simple_test jmdb)
-
-add_dependencies(jmdb_simple_test jmdb)
+# -------------- install files ----------

@@ -1,0 +1,8 @@
+This directory contains all the required files to test the libjmdb library with
+Ruby.
+
+To build and run the tests simply run the rake command.
+
+Before running the tests however please make sure that you take a look at
+fixtures/settings.yaml and alter the settings for each database-server you want
+to test.

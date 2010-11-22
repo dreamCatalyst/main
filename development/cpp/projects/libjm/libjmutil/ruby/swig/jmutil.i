@@ -7,7 +7,8 @@
 %module jmutil_ruby
 %{
   #include "jmutil_fileutils.h"
+  #include "jmutil_stringutils.h"
 %}
 
-/* All the specific interface files */
 %include "jmutil_fileutils.i"
+%include "jmutil_stringutils.i"

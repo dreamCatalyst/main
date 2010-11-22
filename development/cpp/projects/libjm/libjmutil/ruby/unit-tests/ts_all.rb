@@ -7,3 +7,4 @@ require 'test/unit'
 
 require '00_test_loading_extension'
 require '10_test_fileutils'
+require '11_test_string_utils'

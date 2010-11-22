@@ -1,4 +1,5 @@
-
+# This file is part of the libjm project
+# Copyright (C) 2010  Jonathan Maasland
 require 'test/unit'
 require 'jmdb_ruby'
 
@@ -19,13 +20,10 @@ class TestStringField < Test::Unit::TestCase
   end
 
   def test_getInt
-    intMin = -2147483647;
-    intMax = 2147483647;
-
-    sf = StringField.new("#{intMax}")
-    assert_equal(intMax, sf.getInt(), "getInt() correctly returns a maximum positive integer")
-    sf = StringField.new("#{intMin}")
-    assert_equal(intMin, sf.getInt(), "getInt() correctly returns a minimum negative integer")
+    sf = StringField.new("#{IntMax}")
+    assert_equal(IntMax, sf.getInt(), "getInt() correctly returns a maximum positive integer")
+    sf = StringField.new("#{IntMin}")
+    assert_equal(IntMin, sf.getInt(), "getInt() correctly returns a minimum negative integer")
     sf = StringField.new("0")
     assert_equal(0, sf.getInt(), "getInt() correctly returns 0")
     sf = StringField.new("garbage")
@@ -43,20 +41,10 @@ class TestStringField < Test::Unit::TestCase
     assert_equal(0, sf.getInt(), "getDouble() returns 0 for garbage input");
   end
 
-  def test_getLong
-    # long is the same as int actually :)
-    # testing one value for posterity
-    intMax = 2147483647;
-    sf = StringField.new("#{intMax}")
-    assert_equal(intMax, sf.getLong(), "getLong() correctly returns a maximum positive integer")
-  end
-
-  def test_getUInt
-    uintMax = 4294967295
-    sf = StringField.new("#{uintMax}")
-    assert_equal(uintMax, sf.getUInt(), "getUInt() correctly returns for a maximum positive unsigned integer")
-
-    sf = StringField.new("-1")
-    assert_equal(0, sf.getUInt(), "getUInt returns 0 for negative value")
+  def test_getInt64
+    sf = StringField.new("#{Int64Max}")
+    assert_equal(Int64Max, sf.getInt64(), "getInt64() correctly returns a maximum positive 64bit integer")
+    sf = StringField.new("#{Int64Min}")
+    assert_equal(Int64Min, sf.getInt64(), "getInt64() correctly returns a maximum negative 64bit integer")
   end
 end

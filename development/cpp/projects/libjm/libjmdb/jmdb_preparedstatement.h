@@ -1,6 +1,6 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    libjmdb - A simple library for interacting with databases
+    Copyright (C) 2010 - Jonathan Maasland
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
 #ifndef PREPAREDSTATEMENT_H
 #define PREPAREDSTATEMENT_H
 
+#include <stdint.h>
+
 namespace JM {
 namespace DB {
 
@@ -28,26 +30,27 @@ class QueryResult;
 /**
  * Abstract baseclass for interacting with prepared statements.
  */
-class PreparedStatement
-{
-public:
-	/**
-	 * Executes this query and returns a pointer to the QueryResult.
-	 * The user is responsible for deleting the pointer.
-	 */
-	virtual QueryResult* selectQuery() = 0;
-	
-	/**
-	 * Executes this query and returns the number of affected rows.
-	 */
-	virtual unsigned long executeQuery() = 0;
-	
-	virtual void bind(const char* paramId, const char* value, int maxLen = 0);
-	virtual void bind(const char* paramId, const int value);
-	virtual void bind(const char* paramId, const double value);
-	virtual void bind(const char* paramId, const long value);
+class PreparedStatement {
+ public:
+  virtual ~PreparedStatement() { }
+  
+  /**
+   * Executes this query and returns a pointer to the QueryResult.
+   * The user is responsible for deleting the pointer.
+   */
+  virtual QueryResult* selectQuery() = 0;
+  
+  /**
+   * Executes this query and returns the number of affected rows.
+   */
+  virtual int64_t executeQuery() = 0;
+  
+  virtual void bind(const char* paramId, const char* value, int maxLen = 0);
+  virtual void bind(const char* paramId, const int value);
+  virtual void bind(const char* paramId, const double value);
+  virtual void bind(const char* paramId, const int64_t value);
 };
 
-} } // namespace JM::DB
+} }  // namespace JM::DB
 
-#endif // PREPAREDSTATEMENT_H
+#endif  // PREPAREDSTATEMENT_H

@@ -6,3 +6,4 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 add_subdirectory(libjmutil)
 add_subdirectory(libjmdb)
 
+add_dependencies(jmdb jmutil)

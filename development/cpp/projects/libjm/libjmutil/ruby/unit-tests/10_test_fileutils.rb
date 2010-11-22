@@ -1,8 +1,7 @@
 require 'test/unit'
-require 'jmutil_ruby'
+require 'jmutil'
 
-include Jmutil_ruby;
-
+include Jmutil;
 
 class TestFileUtils < Test::Unit::TestCase
   def setup

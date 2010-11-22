@@ -1,3 +1,5 @@
+# This file is part of the libjm project
+# Copyright (C) 2010  Jonathan Maasland
 require 'test/unit'
 require 'jmdb_ruby'
 
@@ -49,34 +51,16 @@ class TestRealField < Test::Unit::TestCase
   end
 
   # same as test_getInt
-  def test_getLong
-    assert_equal(@neg.round, @fNeg.getLong, "getLong() returns a correctly rounded negative value")
+  def test_getInt64
+    assert_equal(@neg.round, @fNeg.getInt64, "getInt64() returns a correctly rounded negative value")
     @neg = -12345.3456
     @fNeg = RealField.new(@neg)
-    assert_equal(@neg.round, @fNeg.getLong, "getLong() returns a correctly rounded negative value")
+    assert_equal(@neg.round, @fNeg.getInt64, "getInt64() returns a correctly rounded negative value")
 
-    assert_equal(@pos.round, @fPos.getLong, "getLong() returns a correctly rounded positive value")
+    assert_equal(@pos.round, @fPos.getInt64, "getInt64() returns a correctly rounded positive value")
     @pos = 12345.3456
     @fPos = RealField.new(@pos)
-    assert_equal(@pos.round, @fPos.getLong, "getLong() returns a correctly rounded positive value")
-  end
-
-  def test_getUInt
-    assert_equal(0, @fNeg.getUInt, "getUInt() returns 0 for a negative value")
-
-    assert_equal(@pos.round, @fPos.getUInt, "getUInt() returns a correctly rounded positive value")
-    @pos = 12345.3456
-    @fPos = RealField.new(@pos)
-    assert_equal(@pos.round, @fPos.getUInt, "getUInt() returns a correctly rounded positive value")
-  end
-
-  def test_getULong
-    assert_equal(0, @fNeg.getULong, "getULong() returns 0 for a negative value")
-
-    assert_equal(@pos.round, @fPos.getULong, "getULong() returns a correctly rounded positive value")
-    @pos = 12345.3456
-    @fPos = RealField.new(@pos)
-    assert_equal(@pos.round, @fPos.getULong, "getULong() returns a correctly rounded positive value")
+    assert_equal(@pos.round, @fPos.getInt64, "getInt64() returns a correctly rounded positive value")
   end
 
 end

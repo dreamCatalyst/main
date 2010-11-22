@@ -1,6 +1,6 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    libjmdb - A simple library for interacting with databases
+    Copyright (C) 2010 - Jonathan Maasland
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,24 +28,23 @@ namespace DB {
 
 
 /**
- * TODO Rename: Bad name for the class. Change it!
+ * TODO add documentation
  */
-class ColumnInformation
-{
-public:
-	ColumnInformation(std::vector<const char*> columnNames);
-	
-	unsigned int numColumns() const;
-	const char* columnName(const unsigned int columnIndex) const;
-	unsigned int columnIndex(const char* columnName) const;
-	
-	// add per-column type information later
-	// also do we want the nullAllowed method?
-protected:
-	std::vector<const char*> m_columnNames;
+class ColumnInformation {
+ public:
+  explicit ColumnInformation(std::vector<const char*> columnNames);
+  
+  unsigned int numColumns() const;
+  const char* columnName(const unsigned int columnIndex) const;
+  unsigned int columnIndex(const char* columnName) const;
+  
+  // TODO add per-column type information later
+  // TODO do we want the nullAllowed method? Can we?
+ protected:
+  std::vector<const char*> m_columnNames;
 };
 
 
-} } // namespace JM::DB
+} }  // namespace JM::DB
 
-#endif // JMDB_COLUMNINFORMATION_H
+#endif  // JMDB_COLUMNINFORMATION_H

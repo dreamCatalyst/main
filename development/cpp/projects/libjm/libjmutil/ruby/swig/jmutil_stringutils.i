@@ -1,12 +1,6 @@
-
 %include "typemaps.i"
-%apply int *OUTPUT { int* len };
 
-%typemap(out) int64_t {
-  $result = LL2NUM($1);
-}
-
-%typemap(in) int64_t const {
+%typemap(in) const int64_t v {
   $1 = NUM2LL($input);
 }
 
@@ -14,4 +8,4 @@
   $1 = (TYPE($input) == T_BIGNUM);
 }
 
-%include "jmdb_field.h"
+%include "jmutil_stringutils.h"

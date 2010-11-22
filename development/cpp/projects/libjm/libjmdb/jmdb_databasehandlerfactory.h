@@ -1,6 +1,6 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    libjmdb - A simple library for interacting with databases
+    Copyright (C) 2010 - Jonathan Maasland
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,31 +27,29 @@ namespace DB {
 class DatabaseHandler;
 
 
-class DatabaseHandlerFactory
-{
-public:
-	
-	/**
-	 * Create a new handler to the database pointed to by the connection string.
-	 * 
-	 * Currently only sqlite is supported but the format is:
-	 * "\<connector>::\<connectorOptions>"
-	 * 
-	 * Where connector is something like sqlite, mysql, pgsql
-	 * The options are usually something like
-	 * "username::password::file_or_host::database"
-	 * This is just an example! Each connector is slightly different.
-	 * 
-	 * See the open method on the specific subclass of DatabaseHandler for
-	 * the database you want to use.
-	 */
-	static DatabaseHandler* open(const char* connectionString);
-	
-private:
-	DatabaseHandlerFactory() {}
+class DatabaseHandlerFactory {
+ public:
+  /**
+   * Create a new handler to the database pointed to by the connection string.
+   * 
+   * Currently only sqlite is supported but the format is:
+   * "\<connector>::\<connectorOptions>"
+   * 
+   * Where connector is something like sqlite, mysql, pgsql
+   * The options are usually something like
+   * "username::password::file_or_host::database"
+   * This is just an example! Each connector is slightly different.
+   * 
+   * See the open method on the specific subclass of DatabaseHandler for
+   * the database you want to use.
+   */
+  static DatabaseHandler* open(const char* connectionString);
+  
+ private:
+  DatabaseHandlerFactory() {}
 };
 
 
-} } // namespace JM::DB
+} }  // namespace JM::DB
 
-#endif // DATABASEHANDLERFACTORY_H
+#endif  // DATABASEHANDLERFACTORY_H

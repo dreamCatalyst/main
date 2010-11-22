@@ -1,3 +1,5 @@
+# This file is part of the libjm project
+# Copyright (C) 2010  Jonathan Maasland
 require 'test/unit'
 require 'jmdb_ruby'
 
@@ -27,7 +29,7 @@ class TestBinaryDataField < Test::Unit::TestCase
   def test_other_methods
     assert_equal("", @f.getString, "getString() returns an empty string")
 
-    %w{ getInt getLong getDouble getUInt getULong }.each do |meth|
+    %w{ getInt getInt64 getDouble }.each do |meth|
       assert_equal(0, @f.__send__(meth), "#{meth}() returns 0")
     end
   end

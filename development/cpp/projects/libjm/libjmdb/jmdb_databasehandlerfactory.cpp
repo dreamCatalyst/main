@@ -1,6 +1,6 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    libjmdb - A simple library for interacting with databases
+    Copyright (C) 2010 - Jonathan Maasland
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,19 +24,22 @@
 // TODO Add compile-time flags here to check for supported databases
 #include "jmdb_sqlitedatabasehandler.h"
 
-using namespace JM::DB;
 
+namespace JM {
+namespace DB {
 
-DatabaseHandler* DatabaseHandlerFactory::open(const char* connectionString)
-{
-	std::string s = connectionString;
-	
-	std::size_t pos = s.find("sqlite");
-	if(pos == 0) {
-		return new SqliteDatabaseHandler(connectionString);
-	}
-	
-	// TODO add other databases later
-	
-	return 0;
+DatabaseHandler* DatabaseHandlerFactory::open(const char* connectionString) {
+  std::string s = connectionString;
+  std::size_t pos = s.find("sqlite");
+  if(pos == 0) {
+    return new SqliteDatabaseHandler(connectionString);
+  }
+  /*pos = s.find("mysql");
+  if(pos == 0) {
+    return new MysqlDatabaseHandler(connectionString);
+  }*/
+  
+  return 0;
 }
+
+} }  // namespace JM::DB

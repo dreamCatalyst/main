@@ -1,6 +1,6 @@
 /*
-    <one line to give the program's name and a brief idea of what it does.>
-    Copyright (C) <year>  <name of author>
+    libjmdb - A simple library for interacting with databases
+    Copyright (C) 2010 - Jonathan Maasland
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include "jmdb_databasehandler.h"
 #include "sqlite3.h"
+#include <stdint.h>
 #include <string>
 
 
@@ -30,45 +31,36 @@ namespace JM {
 namespace DB {
 
 
-class SqliteDatabaseHandler : public DatabaseHandler
-{
-public:
-	SqliteDatabaseHandler(const char* connectionString = 0);
-	
-	// ------------------------------ interface implementation
-	
-	/**
-	 * Opens a connection to a sqlite database.
-	 * TODO I don't know if sqlite has any interesting options.
-	 * 
-	 * The format of the connectionString is very simple:
-	 * sqlite::filepath
-	 */
-	int open(const char* connectionString = 0);
-	
-	/**
-	 * Close the connection
-	 */
-	int close();
-	
-	bool isOpen() const;
-	
-	PreparedStatement* prepareQuery(const char* query);
-	
-	ResultSet* selectQuery(const char* query);
-	
-	int execQuery(const char* query);
-	
-private:
-    bool isConnectionStringValid();
-    std::string extractFilenameFromConnstr();
-	
-	std::string m_connectionString;
-	sqlite3* m_connection;
-	
+class SqliteDatabaseHandler : public DatabaseHandler {
+ public:
+  explicit SqliteDatabaseHandler(const char* connectionString = 0);
+  
+  // ------------------------------ interface implementation
+  
+  /**
+   * Opens a connection to a sqlite database.
+   * TODO I don't know if sqlite has any interesting options.
+   * 
+   * The format of the connectionString is very simple:
+   * sqlite::filepath
+   */
+  int open(const char* connectionString = 0);
+  
+  int close();
+  bool isOpen() const;
+  PreparedStatement* prepareQuery(const char* query);
+  ResultSet* selectQuery(const char* query);
+  int64_t execQuery(const char* query);
+  
+ private:
+  bool isConnectionStringValid();
+  std::string extractFilenameFromConnstr();
+  
+  std::string m_connectionString;
+  sqlite3* m_connection;
 };
 
 
-} } // namespace JM::DB
+} }  // namespace JM::DB
 
-#endif // JMDB_SQLITEDATABASEHANDLER_H
+#endif  // JMDB_SQLITEDATABASEHANDLER_H
