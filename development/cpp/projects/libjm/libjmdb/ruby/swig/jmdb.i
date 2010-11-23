@@ -10,7 +10,9 @@
   #include "jmdb_databasehandlerfactory.h"
   #include "jmdb_field.h"
   #include "jmdb_preparedstatement.h"
+  #include "jmdb_columninformation.h"
   #include "jmdb_resultset.h"
+  #include "jmdb_resultrow.h"
   
   /* ------- jmdb_sqlite headers ------ */
   #include "jmdb_sqlitedatabasehandler.h"
@@ -42,6 +44,8 @@
 %include "jmdb_databasehandlerfactory.i"
 %include "jmdb_field.i"
 %include "jmdb_preparedstatement.i"
+%include "jmdb_columninformation.i"
 %include "jmdb_resultset.i"
+%include "jmdb_resultrow.i"
 
 %include "jmdb_sqlitedatabasehandler.i"

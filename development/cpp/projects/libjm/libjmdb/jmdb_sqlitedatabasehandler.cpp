@@ -19,6 +19,9 @@
 
 #include "jmdb_sqlitedatabasehandler.h"
 
+#include "jmdb_sqliteresultset.h"
+#include <cstring>
+
 namespace JM {
 namespace DB {
 
@@ -69,7 +72,7 @@ bool SqliteDatabaseHandler::isOpen() const {
   return m_connection != 0;
 }
 
-int64_t SqliteDatabaseHandler::execute(const char* query) {
+int SqliteDatabaseHandler::execute( const char* query) {
   if(!isOpen())
     return setError(CONNECTION_ERROR, "No connection to database-file!");
   
@@ -84,6 +87,12 @@ int64_t SqliteDatabaseHandler::execute(const char* query) {
   
   resetError();
   return 0;
+}
+
+int SqliteDatabaseHandler::affectedRowCount() const {
+  if(!isOpen())
+    return 0;
+  return sqlite3_changes(m_connection);
 }
 
 PreparedStatement* SqliteDatabaseHandler::prepareQuery(const char* query) {
@@ -104,10 +113,36 @@ ResultSet* SqliteDatabaseHandler::executeSelectQuery(const char* query) {
     return 0;
   }
   
-  // TODO actually perform the query execution
-  
-  setError(SQL_ERROR, "method not implemented ::prepareQuery");
-  return 0;
+  sqlite3_stmt* stmt;
+  int r = sqlite3_prepare(m_connection, query, strlen(query), &stmt, 0);
+  if(r != SQLITE_OK) {
+    setSqliteErrorCodeAndMessage();
+    return 0;
+  }
+  resetError();
+  ColumnInformation* ci = createColInfo(stmt);
+  SqliteResultSet* rs = new SqliteResultSet(ci, stmt);
+  return rs;
+}
+
+ColumnInformation* SqliteDatabaseHandler::createColInfo(sqlite3_stmt* stmt) {
+  std::vector<const char*> colNames;
+  const int cc = sqlite3_column_count(stmt);
+  for(int i = 0; i < cc; ++i) {
+    const char* colName = sqlite3_column_name(stmt, i);
+    const int l = strlen(colName) + 1;
+    char* cpy = new char[l];
+    strncpy(cpy, colName, l);
+    colNames.push_back(cpy);
+  }
+  return new ColumnInformation(colNames);
+}
+
+void SqliteDatabaseHandler::setSqliteErrorCodeAndMessage() {
+  std::string msg = "Sqlite error (";
+  msg.append(sqlite3_errmsg(m_connection));
+  msg.append(")");
+  setError(SQL_ERROR, msg.c_str());
 }
 
 bool SqliteDatabaseHandler::isConnectionStringValid() {
@@ -115,7 +150,6 @@ bool SqliteDatabaseHandler::isConnectionStringValid() {
     setError(CONNECTION_ERROR, "No connection string set");
     return false;
   }
-  
   if(m_connectionString.find("sqlite::") != 0) {
     setError(CONNECTION_ERROR, 
              "Invalid connection string. Doesn't start with 'sqlite::'");
@@ -127,9 +161,7 @@ bool SqliteDatabaseHandler::isConnectionStringValid() {
     setError(CONNECTION_ERROR, "No filename provided");
     return false;
   }
-  
   // TODO Add checks for options here when they get added
-  
   return true;
 }
 

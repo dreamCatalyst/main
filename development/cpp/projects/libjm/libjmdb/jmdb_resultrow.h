@@ -38,27 +38,27 @@ class Field;
  */
 class ResultRow {
  public:
-  ResultRow(ColumnInformation* columnInfo, std::vector<Field*> fields);
+  explicit ResultRow(ColumnInformation* columnInfo);
   ~ResultRow();
   
   ColumnInformation* columnInformation() const;
   
   Field* getField(const char* columnIdent) const;
-  Field* getField(const unsigned int columnNr) const;
+  Field* getField(const int columnNr) const;
   
   // Convenience methods
   
   const char* getString(const char* columnIdent) const;
-  const char* getString(const unsigned int columnNr) const;
+  const char* getString(const int columnNr) const;
   
   int getInt(const char* columnIdent) const;
-  int getInt(const unsigned int columnNr) const;
+  int getInt(const int columnNr) const;
   
   double getDouble(const char* columnIdent) const;
-  double getDouble(const unsigned int columnNr) const;
+  double getDouble(const int columnNr) const;
   
   int64_t getInt64(const char* columnIdent) const;
-  int64_t getInt64(const unsigned int columnNr) const;
+  int64_t getInt64(const int columnNr) const;
  protected:
   std::vector<Field*> m_fieldList;
   ColumnInformation* m_columnInfo;

@@ -24,36 +24,35 @@ namespace JM {
 namespace DB {
 
 
-ResultRow::ResultRow(ColumnInformation* columnInfo, std::vector< Field* > flds)
-  : m_columnInfo(columnInfo), m_fieldList(flds) {
+ResultRow::ResultRow(ColumnInformation* columnInfo)
+  : m_columnInfo(columnInfo) {
 }
 
 ResultRow::~ResultRow() {
   std::vector<Field*>::const_iterator iter = m_fieldList.begin();
-  for( ; iter < m_fieldList.end(); ++iter )
+  while(iter < m_fieldList.end()) {
     delete *iter;
+    ++iter;
+  }
 }
-
 
 ColumnInformation* ResultRow::columnInformation() const {
   return m_columnInfo;
 }
 
-
 Field* ResultRow::getField(const char* columnIdent) const {
   return m_fieldList.at( m_columnInfo->columnIndex(columnIdent) );
 }
 
-Field* ResultRow::getField(const unsigned int columnNr) const {
+Field* ResultRow::getField(const int columnNr) const {
   return m_fieldList.at(columnNr);
 }
-
 
 double ResultRow::getDouble(const char* columnIdent) const {
   return getField(columnIdent)->getDouble();
 }
 
-double ResultRow::getDouble(const unsigned int columnNr) const {
+double ResultRow::getDouble(const int columnNr) const {
   return getField(columnNr)->getDouble();
 }
 
@@ -61,7 +60,7 @@ int ResultRow::getInt(const char* columnIdent) const {
   return getField(columnIdent)->getInt();
 }
 
-int ResultRow::getInt(const unsigned int columnNr) const {
+int ResultRow::getInt(const int columnNr) const {
   return getField(columnNr)->getInt();
 }
 
@@ -69,7 +68,7 @@ int64_t ResultRow::getInt64( const char* columnIdent) const {
   return getField(columnIdent)->getInt64();
 }
 
-int64_t ResultRow::getInt64( const unsigned int columnNr) const {
+int64_t ResultRow::getInt64( const int columnNr) const {
   return getField(columnNr)->getInt64();
 }
 
@@ -77,7 +76,7 @@ const char* ResultRow::getString(const char* columnIdent) const {
   return getField(columnIdent)->getString();
 }
 
-const char* ResultRow::getString(const unsigned int columnNr) const {
+const char* ResultRow::getString(const int columnNr) const {
   return getField(columnNr)->getString();
 }
 

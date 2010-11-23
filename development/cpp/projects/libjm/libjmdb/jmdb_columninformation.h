@@ -33,6 +33,7 @@ namespace DB {
 class ColumnInformation {
  public:
   explicit ColumnInformation(std::vector<const char*> columnNames);
+  ~ColumnInformation();
   
   unsigned int numColumns() const;
   const char* columnName(const unsigned int columnIndex) const;

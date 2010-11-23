@@ -106,7 +106,13 @@ class DatabaseHandler {
   /**
    * Executes the given query. Returns the error code.
    */
-  virtual int64_t execute(const char* query) = 0;
+  virtual int execute(const char* query) = 0;
+  
+  /**
+   * Returns the number of rows that were affected by the last executed
+   * INSERT, UPDATE or DELETE queries.
+   */
+  virtual int affectedRowCount() const = 0;
   
  protected:
   virtual void setErrorCode(const int errorCode) { 

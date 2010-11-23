@@ -20,30 +20,54 @@
 #ifndef QUERYRESULT_H
 #define QUERYRESULT_H
 
+#include "jmdb_columninformation.h"
+#include <vector>
+
 namespace JM {
 namespace DB {
 
-class ColumnInformation;
 class ResultRow;
 
 
 /**
  * Abstract baseclass specifying the ResultSet api.
- * 
- * A ResultSet is created and returned to the user after calling DatabaseHandler::selectQuery().
  * It provides a very simple way to navigate the results of the query.
  * 
- * A ResultSet also owns it's ResultRow objects. That means that when a ResultSet gets deleted
+ * Provides two ways get get at the rows:
+ * - the iterator methods next() and current() which loads one row at a time
+ * - the getRowList() method which fetches all the rows at once
+ * Choose your method depending on the potential size of the set.
+ * In addition the setFetchWindowSize() method allows for more performance
+ * control by allowing the iterator method to fetch more than one row if needed.
+ * 
+ * A ResultSet is created and returned to the user after calling
+ * DatabaseHandler::executeSelectQuery()
+ * 
+ * A ResultSet owns the ResultRow objects. Ie. when a ResultSet gets deleted
  * the ResultRow objects also get deleted.
  */
 class ResultSet {
  public:
-  virtual ~ResultSet() { }
+  explicit ResultSet(ColumnInformation* colInfo)
+    : m_columnInformation(colInfo), m_fetchWindowSize(1) {
+  }
+  virtual ~ResultSet() {
+    delete m_columnInformation;
+    m_columnInformation = 0;
+  }
   
   /**
-   * Try to move the ResultSet to the next row and returns if the move was succesful.
+   * Get the column information associated with this result set.
    */
-  virtual bool next() = 0;
+  virtual ColumnInformation* getColumnInformation() const {
+    return m_columnInformation;
+  }
+  
+  /**
+   * Try to move the ResultSet to the next row.
+   * Returns 0 if there aren't any more rows.
+   */
+  virtual ResultRow* next() = 0;
   
   /**
    * Returns the pointer to the current row or 0 if there is no current row.
@@ -51,12 +75,32 @@ class ResultSet {
    * Users should take note to delete the ResultSet object itself and not
    * ResultRow pointers. Those will get deleted when the ResultSet is deleted.
    */
-  virtual ResultRow* current() const = 0;
+  virtual ResultRow* current() = 0;
   
   /**
-   * Get the column information associated with this result set.
+   * Returns a vector containing all the ResultRow objects for this ResultSet.
    */
-  virtual ColumnInformation* getColumnInformation() const = 0;
+  virtual std::vector<ResultRow*> getRowList() = 0;
+  
+  /**
+   * Returns the number of rows in this ResultSet.
+   * After calling this method all rows are guaranteed to have been fetched
+   * from the database.
+   */
+  virtual int rowCount() = 0;
+  
+  /**
+   * Sets the number of rows to fetch when using the iterator methods for
+   * retrieving rows.
+   * Defaults to 1.
+   */
+  virtual void setFetchWindowSize(const int windowSize) {
+    m_fetchWindowSize = windowSize;
+  }
+  
+ protected:
+  int m_fetchWindowSize;
+  ColumnInformation* m_columnInformation;
 };
 
 

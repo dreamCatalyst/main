@@ -24,8 +24,16 @@
 namespace JM {
 namespace DB {
 
-ColumnInformation::ColumnInformation(std::vector< const char* > columnNames)
+ColumnInformation::ColumnInformation(std::vector<const char*> columnNames)
   : m_columnNames(columnNames) {
+}
+
+ColumnInformation::~ColumnInformation() {
+  std::vector<const char*>::const_iterator iter = m_columnNames.begin();
+  while(iter != m_columnNames.end()) {
+    delete *iter;
+    iter++;
+  }
 }
 
 const char* ColumnInformation::columnName(const unsigned int columnIndex) const {  // NOLINT

@@ -22,13 +22,15 @@
 
 
 #include "jmdb_databasehandler.h"
-#include "sqlite3.h"
+#include <sqlite3.h>
 #include <stdint.h>
 #include <string>
 
 
 namespace JM {
 namespace DB {
+
+class ColumnInformation;
 
 
 class SqliteDatabaseHandler : public DatabaseHandler {
@@ -39,8 +41,6 @@ class SqliteDatabaseHandler : public DatabaseHandler {
   
   /**
    * Opens a connection to a sqlite database.
-   * TODO I don't know if sqlite has any interesting options.
-   * 
    * The format of the connectionString is very simple:
    * sqlite::filepath
    */
@@ -50,11 +50,13 @@ class SqliteDatabaseHandler : public DatabaseHandler {
   bool isOpen() const;
   PreparedStatement* prepareQuery(const char* query);
   ResultSet* executeSelectQuery(const char* query);
-  int64_t execute(const char* query);
-  
+  int execute(const char* query);
+  int affectedRowCount() const;
  private:
   bool isConnectionStringValid();
   std::string extractFilenameFromConnstr();
+  void setSqliteErrorCodeAndMessage();
+  ColumnInformation* createColInfo(sqlite3_stmt* stmt);
   
   std::string m_connectionString;
   sqlite3* m_connection;
