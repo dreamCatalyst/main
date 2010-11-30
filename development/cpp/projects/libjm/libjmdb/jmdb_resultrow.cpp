@@ -44,40 +44,48 @@ Field* ResultRow::getField(const char* columnIdent) const {
   return m_fieldList.at( m_columnInfo->columnIndex(columnIdent) );
 }
 
-Field* ResultRow::getField(const int columnNr) const {
-  return m_fieldList.at(columnNr);
+Field* ResultRow::getField(const int columnIndex) const {
+  return m_fieldList.at(columnIndex);
+}
+
+bool ResultRow::isNull(const char* columnIdent) const {
+  return getField(columnIdent)->isNull();
+}
+
+bool ResultRow::isNull(const int columnIndex) const {
+  return getField(columnIndex)->isNull();
 }
 
 double ResultRow::getDouble(const char* columnIdent) const {
   return getField(columnIdent)->getDouble();
 }
 
-double ResultRow::getDouble(const int columnNr) const {
-  return getField(columnNr)->getDouble();
+double ResultRow::getDouble(const int columnIndex) const {
+  return getField(columnIndex)->getDouble();
 }
 
 int ResultRow::getInt(const char* columnIdent) const {
   return getField(columnIdent)->getInt();
 }
 
-int ResultRow::getInt(const int columnNr) const {
-  return getField(columnNr)->getInt();
+int ResultRow::getInt(const int columnIndex) const {
+  return getField(columnIndex)->getInt();
 }
 
 int64_t ResultRow::getInt64( const char* columnIdent) const {
   return getField(columnIdent)->getInt64();
 }
 
-int64_t ResultRow::getInt64( const int columnNr) const {
-  return getField(columnNr)->getInt64();
+int64_t ResultRow::getInt64( const int columnIndex) const {
+  return getField(columnIndex)->getInt64();
 }
 
 const char* ResultRow::getString(const char* columnIdent) const {
   return getField(columnIdent)->getString();
 }
 
-const char* ResultRow::getString(const int columnNr) const {
-  return getField(columnNr)->getString();
+const char* ResultRow::getString(const int columnIndex) const {
+  return getField(columnIndex)->getString();
 }
 
 

@@ -32,26 +32,22 @@ namespace DB {
 
 class ColumnInformation;
 
-
+/**
+ * The format of the connectionString is very simple:
+ * sqlite::filepath
+ */
 class SqliteDatabaseHandler : public DatabaseHandler {
  public:
   explicit SqliteDatabaseHandler(const char* connectionString = 0);
   
-  // ------------------------------ interface implementation
-  
-  /**
-   * Opens a connection to a sqlite database.
-   * The format of the connectionString is very simple:
-   * sqlite::filepath
-   */
   int open(const char* connectionString = 0);
-  
   int close();
   bool isOpen() const;
   PreparedStatement* prepareQuery(const char* query);
   ResultSet* executeSelectQuery(const char* query);
   int execute(const char* query);
   int affectedRowCount() const;
+  
  private:
   bool isConnectionStringValid();
   std::string extractFilenameFromConnstr();

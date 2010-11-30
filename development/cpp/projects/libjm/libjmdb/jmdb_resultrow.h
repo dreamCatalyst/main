@@ -47,18 +47,20 @@ class ResultRow {
   Field* getField(const int columnNr) const;
   
   // Convenience methods
+  bool isNull(const char* columnIdent) const;
+  bool isNull(const int columnIndex) const;
   
   const char* getString(const char* columnIdent) const;
-  const char* getString(const int columnNr) const;
+  const char* getString(const int columnIndex) const;
   
   int getInt(const char* columnIdent) const;
-  int getInt(const int columnNr) const;
+  int getInt(const int columnIndex) const;
   
   double getDouble(const char* columnIdent) const;
-  double getDouble(const int columnNr) const;
+  double getDouble(const int columnIndex) const;
   
   int64_t getInt64(const char* columnIdent) const;
-  int64_t getInt64(const int columnNr) const;
+  int64_t getInt64(const int columnIndex) const;
  protected:
   std::vector<Field*> m_fieldList;
   ColumnInformation* m_columnInfo;
