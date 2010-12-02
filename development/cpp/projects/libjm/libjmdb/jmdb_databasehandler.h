@@ -38,6 +38,7 @@ class ResultSet;
  */
 class DatabaseHandler {
  public:
+  DatabaseHandler() : m_errorMessage(""), m_errorCode(0) { }
   virtual ~DatabaseHandler() {}
 
   /**

@@ -15,6 +15,7 @@ require '04_test_binary_data_field'
 require '05_test_dbhfactory'
 
 # sqlite tests
-require '11_test_sqlitedbh'
+require '11_test_sqlite_connstr'
+require '12_test_sqlite_dbh'
 
 # mysql tests

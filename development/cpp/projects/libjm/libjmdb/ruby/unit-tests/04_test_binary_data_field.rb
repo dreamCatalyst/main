@@ -23,7 +23,10 @@ class TestBinaryDataField < Test::Unit::TestCase
     assert(!@f.isNull, "creating a BinaryDataField with args creates a non-null value")
     data,len = @f.getBinary;
     assert_equal(@len, len, "getBinary returns the correct length")
-    assert_equal(@data, data, "getBinary returns the correct data")
+    len.times do |idx|
+      assert_equal(@data[idx], data[idx], "getBinary returns the correct byte data")
+    end
+    #assert_equal(@data, data, "getBinary returns the correct data")
   end
 
   def test_other_methods
