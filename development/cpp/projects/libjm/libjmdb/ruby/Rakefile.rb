@@ -19,5 +19,11 @@ task :create_makefile => [ :check_create_links, :generate_wrappers ] do
 end
 
 task :generate_wrappers => [] do
-   sh %{ swig -c++ -ruby -Wall -Wextra -I.. -o jmdb_ruby_wrapper.cpp swig/jmdb.i }
+  sh %{ swig -c++ -ruby -Wall -Wextra -I.. -o jmdb_ruby_wrapper.cpp swig/jmdb.i }
+end
+
+task :create_sqlite_testdb do
+  puts "Creating sqlite fixture database"
+  require 'rakehelpers/create_sqlite_testdb'
+  create_sqlite_testdb
 end

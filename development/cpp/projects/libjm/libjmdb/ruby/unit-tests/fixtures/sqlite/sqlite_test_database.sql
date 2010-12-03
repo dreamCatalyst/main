@@ -1,0 +1,51 @@
+
+create table Address(
+  id INTEGER primary key,
+  street varchar(255) not null,
+  zipcode varchar(10) not null,
+  city varchar(255) not null
+);
+
+create table Customer(
+  id INTEGER primary key,
+  firstName varchar(255) not null,
+  lastName varchar(255) not null,
+  email varchar(255) not null,
+  addresId int not null
+);
+
+create table Item(
+  id INTEGER primary key,
+  name varchar(255) not null,
+  price double not null
+);
+
+create table PurchaseOrder(
+  id INTEGER primary key,
+  customerId int not null,
+  orderStatus int not null
+);
+
+create table PurchaseOrderLineItem(
+  id INTEGER primary key,
+  purchaseOrderId int not null,
+  itemId int not null,
+  quantity int not null
+);
+
+insert into Address (street,zipcode,city) values ("Some street", "1234AB", "Somewhere");
+insert into Customer (firstName, lastName, email, addresId) values ("Jonathan", "Maasland", "nochoice AT xs4all dot nl", 1);
+
+insert into Address (street,zipcode,city) values ("Some other street", "1234AC", "Someplace");
+insert into Customer (firstName, lastName, email, addresId) values ("A", "Nonymous", "", 2);
+
+insert into Item(name,price) values ("Weeds season 1 dvd-box", 18.95);
+insert into Item(name,price) values ("Weeds season 2 dvd-box", 18.95);
+insert into Item(name,price) values ("Weeds season 3 dvd-box", 28.95);
+insert into Item(name,price) values ("Weeds season 4 dvd-box", 38.95);
+insert into Item(name,price) values ("Weeds season 5 dvd-box", 38.95);
+
+insert into PurchaseOrder(customerId,orderStatus) values(1,1);
+insert into PurchaseOrderLineItem(purchaseOrderId,itemId,quantity) values (1,1,1);
+insert into PurchaseOrderLineItem(purchaseOrderId,itemId,quantity) values (1,2,1);
+insert into PurchaseOrderLineItem(purchaseOrderId,itemId,quantity) values (1,3,1);

@@ -7,7 +7,6 @@ module DBHTestBase
 module TestExecute
   def test_executing_statements
     n = @dbh.execute("create table Test( id number )")
-                     assert_equal(0, n, "execute('create table') returns NO_ERROR")
     check_no_error
     
     n = @dbh.execute("insert into Test (id) values (1)")

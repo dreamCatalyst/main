@@ -21,6 +21,7 @@
 #define QUERYRESULT_H
 
 #include "jmdb_columninformation.h"
+#include "jmdb_preparedstatement.h"
 #include <vector>
 
 namespace JM {
@@ -48,12 +49,15 @@ class ResultRow;
  */
 class ResultSet {
  public:
-  explicit ResultSet(ColumnInformation* colInfo)
-    : m_columnInformation(colInfo), m_fetchWindowSize(1) {
+  explicit ResultSet(ColumnInformation* colInfo, PreparedStatement* parent = 0)
+    : m_columnInformation(colInfo), m_fetchWindowSize(1), m_parent(parent) {
   }
   virtual ~ResultSet() {
     delete m_columnInformation;
     m_columnInformation = 0;
+    if(m_parent != 0) {
+      m_parent->freeBindDataForResult(this);
+    }
   }
   
   /**
@@ -101,6 +105,7 @@ class ResultSet {
  protected:
   int m_fetchWindowSize;
   ColumnInformation* m_columnInformation;
+  PreparedStatement* m_parent;
 };
 
 

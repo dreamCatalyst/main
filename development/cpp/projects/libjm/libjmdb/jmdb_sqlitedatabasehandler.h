@@ -48,11 +48,12 @@ class SqliteDatabaseHandler : public DatabaseHandler {
   int execute(const char* query);
   int affectedRowCount() const;
   
+  sqlite3* getConnection() const;
+  void setSqliteErrorCodeAndMessage();
+  static ColumnInformation* createColInfo(sqlite3_stmt* stmt);
  private:
   bool isConnectionStringValid();
   std::string extractFilenameFromConnstr();
-  void setSqliteErrorCodeAndMessage();
-  ColumnInformation* createColInfo(sqlite3_stmt* stmt);
   
   std::string m_connectionString;
   sqlite3* m_connection;

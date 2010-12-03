@@ -21,34 +21,106 @@
 #define PREPAREDSTATEMENT_H
 
 #include <stdint.h>
+#include <map>
+#include <string>
+#include <vector>
 
 namespace JM {
 namespace DB {
 
-class QueryResult;
+class ResultSet;
+
+enum ValueType {
+  VT_INT = 0,
+  VT_INT64 = 1,
+  VT_STRING = 2,
+  VT_DOUBLE = 3,
+  VT_BINARY = 4
+};
 
 /**
- * Abstract baseclass for interacting with prepared statements.
+ * Helper class to wrap a value that is bound to a PreparedStatement.
+ */
+class ValueWrapper {
+ public:
+  static ValueWrapper* createInt(const int intVal);
+  static ValueWrapper* createInt64(const int64_t int64Val);
+  static ValueWrapper* createString(const char* strVal);
+  static ValueWrapper* createDouble(const double dblVal);
+  
+  explicit ValueWrapper(const ValueType vtype);
+  ~ValueWrapper();
+  
+  ValueType getType() const;
+  int getInt() const;
+  int64_t getInt64() const;
+  const char* getString() const;
+  double getDouble() const;
+  
+  void setType(const ValueType vt);
+  void setInt(const int intVal);
+  void setInt64(const int64_t int64Val);
+  void setString(const char* strVal);
+  void setDouble(const double dblVal);
+ protected:
+  ValueType m_valueType;
+  int m_intValue;
+  int64_t m_int64Value;
+  std::string m_stringValue;
+  double m_doubleValue;
+  // TODO binary
+};
+
+/**
+ * Abstract baseclass representing a prepared statement.
+ * 
+ * Allows for variables to be 'bound' to a query.
+ * TODO write $nnn documentation
+ * 
+ * It is important to note that the bind(const int, ...) variants use
+ * 1-based indexing. This means that the leftmost variables has an index of 1.
  */
 class PreparedStatement {
  public:
-  virtual ~PreparedStatement() { }
+  explicit PreparedStatement(const char* query);
+  virtual ~PreparedStatement();
   
   /**
-   * Executes this query and returns a pointer to the QueryResult.
+   * Executes this query and returns a pointer to the ResultSet.
    * The user is responsible for deleting the pointer.
+   * 
+   * It is important to note that the correct order for deletion is:
+   * first all ResultsSets then the PreparedStatement.
+   * 
+   * Subclasses should always call registerBoundValues().
    */
-  virtual QueryResult* selectQuery() = 0;
+  virtual ResultSet* executeSelectQuery() = 0;
   
   /**
    * Executes this query and returns the number of affected rows.
    */
-  virtual int64_t executeQuery() = 0;
+  virtual int64_t execute() = 0;
   
   virtual void bind(const char* paramId, const char* value, int maxLen = 0);
   virtual void bind(const char* paramId, const int value);
   virtual void bind(const char* paramId, const double value);
   virtual void bind(const char* paramId, const int64_t value);
+  // TODO bind for binary data
+  virtual void bind(const int paramIndex, const char* value, int maxLen = 0);
+  virtual void bind(const int paramIndex, const int value);
+  virtual void bind(const int paramIndex, const double value);
+  virtual void bind(const int paramIndex, const int64_t value);
+  // TODO bind for binary data
+  
+  void freeBindDataForResult(ResultSet* resultSet);
+ protected:
+  void registerBoundValues(ResultSet* resultSet);
+  
+  std::map<int, ValueWrapper*> m_bindValueMapByIndex;
+  std::map<std::string, ValueWrapper*> m_bindValueMapByParamId;
+  std::string m_query;
+ private:
+  std::map<ResultSet*, std::vector<ValueWrapper*> > m_inUseBoundValues;
 };
 
 } }  // namespace JM::DB

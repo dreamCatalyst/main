@@ -16,10 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #include "jmdb_sqlitedatabasehandler.h"
 
 #include "jmdb_sqliteresultset.h"
+#include "jmdb_sqlitepreparedstatement.h"
 #include <cstring>
 
 namespace JM {
@@ -100,11 +100,7 @@ PreparedStatement* SqliteDatabaseHandler::prepareQuery(const char* query) {
     setError(CONNECTION_ERROR, "No connection to database-file!");
     return 0;
   }
-  
-  // TODO actually perform the query preparation
-  
-  setError(SQL_ERROR, "method not implemented ::prepareQuery");
-  return 0;
+  return new SqlitePreparedStatement(this, query);
 }
 
 ResultSet* SqliteDatabaseHandler::executeSelectQuery(const char* query) {
@@ -124,6 +120,11 @@ ResultSet* SqliteDatabaseHandler::executeSelectQuery(const char* query) {
   SqliteResultSet* rs = new SqliteResultSet(ci, stmt);
   return rs;
 }
+
+sqlite3* SqliteDatabaseHandler::getConnection() const {
+  return m_connection;
+}
+
 
 ColumnInformation* SqliteDatabaseHandler::createColInfo(sqlite3_stmt* stmt) {
   std::vector<const char*> colNames;

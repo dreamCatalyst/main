@@ -29,8 +29,17 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../libjmutil)
 
 # -------------- next target ------------
 
-add_library(jmdb SHARED jmdb_databasehandlerfactory.cpp jmdb_columninformation.cpp jmdb_field.cpp jmdb_resultrow.cpp 
-    jmdb_sqlitedatabasehandler.cpp jmdb_sqliteresultrow.cpp jmdb_sqliteresultset.cpp )
+add_library(jmdb SHARED
+  jmdb_databasehandlerfactory.cpp
+  jmdb_columninformation.cpp
+  jmdb_field.cpp
+  jmdb_resultrow.cpp
+  jmdb_preparedstatement.cpp
+  jmdb_sqlitedatabasehandler.cpp
+  jmdb_sqliteresultrow.cpp
+  jmdb_sqliteresultset.cpp
+  jmdb_sqlitepreparedstatement.cpp
+)
 target_link_libraries(jmdb sqlite3 jmutil)
 
 # -------------- install files ----------

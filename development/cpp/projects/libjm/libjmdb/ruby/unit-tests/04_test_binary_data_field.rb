@@ -26,7 +26,6 @@ class TestBinaryDataField < Test::Unit::TestCase
     len.times do |idx|
       assert_equal(@data[idx], data[idx], "getBinary returns the correct byte data")
     end
-    #assert_equal(@data, data, "getBinary returns the correct data")
   end
 
   def test_other_methods
