@@ -1,0 +1,1 @@
+%include "jmdb_mysqldatabasehandler.h"

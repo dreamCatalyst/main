@@ -19,3 +19,4 @@ require '11_test_sqlite_connstr'
 require '12_test_sqlite_dbh'
 
 # mysql tests
+require '21_test_mysql_connstr'

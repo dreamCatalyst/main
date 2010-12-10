@@ -21,8 +21,13 @@
 
 #include <string>
 
-// TODO Add compile-time flags here to check for supported databases
+#include "config.h"
+#ifdef HAVE_SQLITE3
 #include "jmdb_sqlitedatabasehandler.h"
+#endif
+#ifdef HAVE_MYSQL
+#include "jmdb_mysqldatabasehandler.h"
+#endif
 
 
 namespace JM {
@@ -30,15 +35,23 @@ namespace DB {
 
 DatabaseHandler* DatabaseHandlerFactory::open(const char* connectionString) {
   std::string s = connectionString;
-  std::size_t pos = s.find("sqlite");
+  std::size_t pos;
+
+#ifdef HAVE_SQLITE3
+  pos = s.find("sqlite");
   if(pos == 0) {
     return new SqliteDatabaseHandler(connectionString);
   }
-  /*pos = s.find("mysql");
+#endif
+  
+#ifdef HAVE_MYSQL
+  pos = s.find("mysql");
   if(pos == 0) {
     return new MysqlDatabaseHandler(connectionString);
-  }*/
-  
+  }
+#endif
+
+  // log an error message
   return 0;
 }
 

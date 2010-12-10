@@ -16,6 +16,9 @@
   
   /* ------- jmdb_sqlite headers ------ */
   #include "jmdb_sqlitedatabasehandler.h"
+  
+  /* ------- jmdb_mysql headers ------ */
+  #include "jmdb_mysqldatabasehandler.h"
 %}
 
 
@@ -49,3 +52,5 @@
 %include "jmdb_resultrow.i"
 
 %include "jmdb_sqlitedatabasehandler.i"
+
+%include "jmdb_mysqldatabasehandler.i"

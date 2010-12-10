@@ -39,6 +39,7 @@ class ColumnInformation;
 class SqliteDatabaseHandler : public DatabaseHandler {
  public:
   explicit SqliteDatabaseHandler(const char* connectionString = 0);
+  virtual ~SqliteDatabaseHandler();
   
   int open(const char* connectionString = 0);
   int close();

@@ -33,6 +33,11 @@ SqliteDatabaseHandler::SqliteDatabaseHandler(const char* connectionString)
     open();
 }
 
+SqliteDatabaseHandler::~SqliteDatabaseHandler() {
+  if(isOpen())
+    close();
+}
+
 int SqliteDatabaseHandler::open(const char* connectionString) {
   if(isOpen())
     return setError(CONNECTION_ERROR, "Connection already opened");

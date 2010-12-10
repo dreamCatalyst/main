@@ -21,9 +21,6 @@
 #include "jmdb_sqliteresultset.h"
 
 
-#include <iostream>
-using namespace std;
-
 namespace JM {
 namespace DB {
 
@@ -45,10 +42,8 @@ int64_t SqlitePreparedStatement::execute() {
 }
 
 ResultSet* SqlitePreparedStatement::executeSelectQuery() {
-  // cout << "--SqlitePreparedStatement::executeSelectQuery() start" << endl;
   sqlite3_stmt* stmt = createStatement();
   if(stmt == 0) {
-    // cout << "returning 0 because stmt == 0" << endl;
     return 0;
   }
   
@@ -59,22 +54,18 @@ ResultSet* SqlitePreparedStatement::executeSelectQuery() {
 }
 
 sqlite3_stmt* SqlitePreparedStatement::createStatement() {
-  // cout << "--SqlitePreparedStatement::createStatement() start" << endl;
   sqlite3* conn = m_dbh->getConnection();
   sqlite3_stmt* stmt;
   sqlite3_prepare(conn, m_query.c_str(), -1, &stmt, 0);
   if(sqlite3_errcode(conn) != SQLITE_OK) {
     setHandlerError();
-    // cout << "returning 0 because errcode was not SQLITE_OK" << endl;
     return 0;
   }
   if(!bindIndexVars(stmt)) {
-    // cout << "returning 0 because bindIndexVars failed" << endl;
     setHandlerError();
     return 0;
   }
   if(!bindNameVars(stmt)) {
-    // cout << "returning 0 because bindNameVars failed" << endl;
     setHandlerError();
     return 0;
   }
@@ -94,56 +85,43 @@ bool SqlitePreparedStatement::bindIndexVars(sqlite3_stmt* stmt) {
 
 bool SqlitePreparedStatement::bindIndexVar(sqlite3_stmt* stmt, int index,
     ValueWrapper* value) {
-  // cout << "--SqlitePreparedStatement::bindIndexVar start" << endl;
   int result;
   switch(value->getType()) {
     case VT_INT: {
-      // cout << "binding int-value: " << value->getInt() << " on index: " << index << endl;
       result = sqlite3_bind_int(stmt, index, value->getInt());
       break;
     }
     case VT_INT64: {
-      // cout << "binding int64" << endl;
       result = sqlite3_bind_int64(stmt, index, value->getInt64());
       break;
     }
     case VT_STRING: {
-      // cout << "binding string" << endl;
       result = sqlite3_bind_text(stmt, index, value->getString(), -1, 0);
       break;
     }
     case VT_DOUBLE: {
-      // cout << "binding double" << endl;
       result = sqlite3_bind_double(stmt, index, value->getDouble());
       break;
     }
   };
-  // cout << "result of binding is: " << result << endl;
   return result == SQLITE_OK;
 }
 
 
 bool SqlitePreparedStatement::bindNameVars(sqlite3_stmt* stmt) {
-  // cout << "--SqlitePreparedStatement::bindNameVars start" << endl;
-  // cout << "Iterating over named variables" << endl;
   std::map<std::string, ValueWrapper*>::const_iterator iter;
   for(iter = m_bindValueMapByParamId.begin();
       iter != m_bindValueMapByParamId.end(); ++iter) {
-    // cout << "varname: '" << iter->first.c_str() << "'" << endl;
     if(!bindNameVar(stmt, iter->first.c_str(), iter->second)) {
-      // cout << "bailing out because bindNameVar failed" << endl;
       return false;
     }
   }
-  // cout << "--SqlitePreparedStatement::bindNameVars finished returning true" << endl;
   return true;
 }
 
 bool SqlitePreparedStatement::bindNameVar(sqlite3_stmt* stmt, 
     const char* name, ValueWrapper* value) {
-  // cout << "--SqlitePreparedStatement::bindNameVar start" << endl;
   int idx = sqlite3_bind_parameter_index(stmt, name);
-  // cout << "name='" << name << "'" << " associated index: " << idx << endl;
   return bindIndexVar(stmt, idx, value);
 }
 

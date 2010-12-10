@@ -1,0 +1,6 @@
+--- !ruby/object:MysqlTestConfig 
+database: jmdbMysqlTests
+host: localhost
+password: updateMe
+username: root
+portNumber: 0
