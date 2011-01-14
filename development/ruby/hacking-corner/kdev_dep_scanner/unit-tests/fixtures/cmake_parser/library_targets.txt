@@ -1,0 +1,8 @@
+project(someProject)
+cmake_minimum_required(VERSION 2.8)
+
+add_library( Target1 SHARED main.cpp some_file.cpp )
+add_library( Target2 STATIC main.cpp some_file.cpp )
+add_library( Target3 MODULE main.cpp some_file.cpp )
+
+add_library( Target4 SHARED EXCLUDE_FROM_ALL main.cpp some_file.cpp )

@@ -1,0 +1,5 @@
+project(someProject)
+cmake_minimum_required(VERSION 2.8)
+
+add_executable( Target1 main.cpp some_file.cpp )
+add_executable( Target2 WIN32 MACOSX_BUNDLE EXCLUDE_FROM_ALL main.cpp some_file.cpp )   # for completeness sake

@@ -1,0 +1,6 @@
+project(someProject)
+cmake_minimum_required(VERSION 2.8)
+
+kde4_add_library( Target1 SHARED main.cpp some_file.cpp )
+kde4_add_plugin( Target2 main.cpp some_file.cpp )
+kde4_add_executable( Target3 main.cpp some_file.cpp )

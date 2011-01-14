@@ -1,0 +1,7 @@
+project(someProject)
+cmake_minimum_required(VERSION 2.8)
+
+set( Var1  a  b  c )
+set( Var2  D  E  F )
+set( Var3  1  2  3 )
+

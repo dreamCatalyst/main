@@ -1,0 +1,76 @@
+kdev_dep_scanner - Simple dependency scanner for the kdevplatform sources
+Copyright 2011 Jonathan Maasland
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+===============================================================================
+Purpose
+===============================================================================
+This application was written in response to a question asked by Andreas Pakulat
+on the kdevelop mailing list.
+
+The question was:
+Long story short: Can someone think of an easy way to search through a
+list of headers and find all include's that are not in the same
+directory or subdirs?
+
+http://lists.kde.org/?l=kdevelop-devel&m=129201526609231&w=2
+
+
+===============================================================================
+Requirements
+===============================================================================
+- Ruby 1.8
+- A working-set of the kdevplatform sources
+- A webbrowser with Javascript enabled (oh yeah)
+Optional:
+- rake (in order to run the tests)
+
+
+===============================================================================
+Running the application
+===============================================================================
+
+
+===============================================================================
+How does it work
+===============================================================================
+The application basically consists of two seperate parts: the dependency tree
+builder and the cmake-driver. The cmake-driver is the part that is specific to
+our problem (finding cross-project deps in kdevplatform). It parses the
+CMakeLists.txt files and then feeds each source-file to the dependency tree
+builder.
+
+Like I said this is a _real basic_ dependency scanner. All it does is find all
+the include directives for a file, attempt to locate them and then recusively
+does the same for all found includes.
+
+After all the sources have been 'parsed' the resulting dependency trees are
+then analyzed by the cmake-driver and all sub-project dependencies are found
+and presented in a nicely formatted HTML document.
+
+For more detail: "Use the source Luke!"
+
+
+===============================================================================
+History
+===============================================================================
+After writing a rather ugly working version first I decided to start over from
+scratch so that the utility could be used more than once and quite possibly be
+adapted to be used for other projects.
+
+I don't like ugly code and boy was it ugly before.
+I'd really like for my code not to smell when I share it... -sigh-
+

@@ -1,0 +1,7 @@
+project(someProject)
+cmake_minimum_required(VERSION 2.8)
+
+set(SomeVar "a complex two-line string
+#")  # "
+
+message("${SomeVar}")

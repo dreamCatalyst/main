@@ -1,0 +1,15 @@
+#
+#
+#
+
+task :default => [ :all ]
+task :all => [ :test, :run ]
+
+task :test do
+  sh %{ ruby -I unit-tests unit-tests/tsAll.rb }
+end
+
+task :run do
+  require 'kdev_dep_scanner'
+end
+
