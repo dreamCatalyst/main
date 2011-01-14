@@ -81,8 +81,8 @@ class TVShowBuilder
 
   def set_show_year(show, doc)
     title = doc.xpath("//html/head/title")[0].to_str
-    if ! title =~ /.*\(([\d]*)\)/
-      puts "--Parsing error: title doesn't match expectation"  # again log this instead
+    if !(title =~ /.*\(([\d]*)\)/)
+      puts "\n--Parsing error: title doesn't match expectation"  # again log this instead
       return
     end
 
@@ -120,7 +120,7 @@ class TVShowBuilder
 
   def get_summary(elem)
     str = elem.to_html
-    str =~ /<\/strong>.*<\/span>.*<br>(.*)/
+    str =~ /<\/strong>.*<\/span>.*<br> (.*)<\/td>/
     $1
   end
 
