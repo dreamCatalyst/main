@@ -23,7 +23,7 @@ class UrlDiskCache
     end
   end
 
-  def get_file_for_url(url)
+  def get_url_file(url)
     return @cache[url].filename if @cache.has_key?(url)
     fn = @directory + "/" + generate_random_filename
     begin
@@ -40,6 +40,12 @@ class UrlDiskCache
       puts "An error occurred while retrieving '#{url}'"
       puts "Exception message: '#{e.message}'"
     end
+    return nil
+  end
+
+  def get_url_content(url)
+    cached_filename = get_url_file(url)
+    return IO.read(cached_filename) if cached_filename
     return nil
   end
   
