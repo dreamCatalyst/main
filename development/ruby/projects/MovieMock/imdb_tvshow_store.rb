@@ -15,6 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with MovieMock.  If not, see <http://www.gnu.org/licenses/>
 
+require 'yaml'
+require 'imdb_model_classes'
+
+
 module Imdb
 
 
@@ -35,13 +39,19 @@ class TVShowStoreBackend
   end
 
   def get_tvshow(showname)
+    return @storage[showname] if @storage.has_key?(showname)
+    @storage[showname] = @builder.build_show(showname)
   end
 
   def save_to_disk
+    File.open( storage_file(), "w") do |file|
+      file << @storage.to_yaml()
+    end
   end
 
   protected
   def initialize
+    @builder = TVShowBuilder.new
     @storage = { }
     load_from_disk
   end
@@ -49,6 +59,14 @@ class TVShowStoreBackend
   def load_from_disk
     return unless storage_file_exists?()
     @storage = YAML::load_file( storage_file() )
+  end
+
+  def storage_file_exists?
+    File.exist?( storage_file() )
+  end
+
+  def storage_file
+    ".imdb_tvshow_store.yaml"  # TODO Change this
   end
 
 end

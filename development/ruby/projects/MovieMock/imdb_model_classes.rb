@@ -18,7 +18,7 @@
 module Imdb
 
   class TVShowEpisode
-    attr_accessor :season, :episode, :title, :airdate, :summary
+    attr_accessor :season, :episode, :title, :airdate, :summary, :url
   end
 
   class TVShow
@@ -34,5 +34,8 @@ module Imdb
     end
   end
 
+  class Movie
+    attr_accessor :title, :year, :url, :running_time, :summary, :genres, :cast
+  end
 end
 

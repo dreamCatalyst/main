@@ -52,6 +52,7 @@
 
 
 require 'imdb_model_classes'
+require 'imdb_search_helper'
 require 'nokogiri_helper'
 
 
@@ -60,68 +61,76 @@ module Imdb
 
 class TVShowBuilder
 
-  def build_show_from_url(showname, url)
-    show = create_new_show(showname, url)
-    doc = create_nokogiri_doc(url)
+  def build_tvshow(showname)
+    show = create_new_tvshow(showname)
+    doc = create_nokogiri_doc(
+        SearchHelper.get_tvshow_episode_list_url(showname))
     set_show_data(show, doc)
     show
   end
 
   private
+  def create_new_tvshow(showname)
+    show = TVShow.new(showname)
+    show.url = SearchHelper.get_tvshow_url(showname)
+    show
+  end
+
   def set_show_data(show, doc)
     set_show_year(show, doc)
     add_episodes(show, doc)
   end
 
-  def create_new_show(showname, url)
-    show = TVShow.new(showname)
-    show.url = url
-    show
-  end
-
   def set_show_year(show, doc)
     title = doc.xpath("//html/head/title")[0].to_str
-    if !(title =~ /.*\(([\d]*)\)/)
-      puts "\n--Parsing error: title doesn't match expectation"  # again log this instead
-      return
-    end
-
+    title =~ /.*\(([\d]*)\)/
     show.year = $1
   end
 
   def add_episodes(show, doc)
-    first = true
-    doc.xpath("//div/div[2]/layer/div[2]/div/div/div[2]/div").each do |season_elem|
-      (first = false ; next ) if first
+    doc.css("div.season-filter-all").each do |season_elem|
+      puts "---Adding season"
       season_elem.xpath("div/table/tr/td[2]").each do |episode_elem|
+        #puts "---Adding episode"
         add_episode_to_show(show, episode_elem)
       end
     end
   end
 
   def add_episode_to_show(show, elem)
-    get_episode_head_string(elem) =~ /Season ([\d]*), Episode ([\d]*): (.*)/
     ep = TVShowEpisode.new
-    ep.season = $1
-    ep.episode = $2
-    ep.title = $3
-    ep.airdate = get_airdate(elem)
-    ep.summary = get_summary(elem)
+    set_episode_header_data(ep, elem)
+    set_episode_airdate(ep, elem)
+    set_episode_summary(ep, elem)
+    set_episode_url(ep, elem)
+
     show.add_episode(ep)
+  end
+
+  def set_episode_header_data(episode, elem)
+    get_episode_head_string(elem) =~ /Season ([\d]*), Episode ([\d]*): (.*)/
+    episode.season = $1
+    episode.episode = $2
+    episode.title = $3
   end
 
   def get_episode_head_string(elem)
     elem.xpath("h3")[0].to_str
   end
 
-  def get_airdate(elem)
-    elem.xpath("span/strong")[0].to_str
+  def set_episode_airdate(episode, elem)
+    episode.airdate = elem.xpath("span/strong")[0].to_str
   end
 
-  def get_summary(elem)
+  def set_episode_summary(episode, elem)
     str = elem.to_html
     str =~ /<\/strong>.*<\/span>.*<br> (.*)<\/td>/
-    $1
+    episode.summary = $1
+  end
+
+  def set_episode_url(episode, elem)
+    elem.xpath("h3/a").to_html =~ /href="(.*)"/
+    episode.url = "http://www.imdb.com" + $1
   end
 
   def create_nokogiri_doc(url)
