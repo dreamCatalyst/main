@@ -16,13 +16,17 @@
 # along with MovieMock.  If not, see <http://www.gnu.org/licenses/>
 
 require 'rubygems'
-require 'open-uri'
 require 'nokogiri'
+require 'mm_cache'
 
 
 class NokogiriHelper
   def self.create_doc_from_url(url)
-    Nokogiri::HTML( open(url) )
+    Nokogiri::HTML( ud_cache().get_url_content(url) )
+  end
+
+  def self.create_doc(content_string)
+    Nokogiri::HTML( content_string )
   end
 end
 

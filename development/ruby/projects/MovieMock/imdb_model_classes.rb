@@ -35,7 +35,12 @@ module Imdb
   end
 
   class Movie
-    attr_accessor :title, :year, :url, :running_time, :summary, :genres, :cast
+    attr_accessor :title, :year, :url, :running_time, :summary
+    attr_accessor :genres, :cast, :cover_url
+
+    def initialize(name)
+      @title = name
+    end
   end
 end
 

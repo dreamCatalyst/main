@@ -60,7 +60,7 @@ class MovieFileDescriptor
 
 end
 
-class MyMovieDirectoryParser
+class MyMoviesDirectoryParser
   attr_accessor :base_directory
 
   def initialize
@@ -99,7 +99,6 @@ class MyMovieDirectoryParser
       end
     end
   end
-
 
 end
 

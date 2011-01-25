@@ -4,6 +4,7 @@
 
 require 'yaml'
 require 'http_helper'
+require 'directory_helper'
 
 class CacheEntry
   attr_accessor :url, :filename, :creation_date, :expiration_date
@@ -12,7 +13,7 @@ end
 class UrlDiskCache
   def initialize(directory)
     @directory = directory
-    Dir.mkdir(@directory) unless File.directory?(@directory)
+    DirectoryHelper.mkdir_p(@directory) unless File.directory?(@directory)
     @cache = {}
     read_cache_from_disk
   end
