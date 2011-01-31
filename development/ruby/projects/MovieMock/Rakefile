@@ -1,0 +1,8 @@
+#
+#
+#
+
+task :test do
+  sh %{ ruby -Iunit-tests unit-tests/tsAll.rb }
+end
+
